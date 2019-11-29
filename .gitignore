@@ -86,4 +86,3 @@ fabric.properties
 .idea/vcs.xml
 .idea/workspace.xml
 KafkaUtil.iml
-src/

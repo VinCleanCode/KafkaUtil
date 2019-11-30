@@ -1,8 +1,3 @@
-/** 
- * 版本信息： 
- * 创建时间：Jan 28, 2015-1:19:31 PM 
- * **********Copyright (c) 2015  新蛋科技(成都)公司-版权所有********** 
- */
 package com.rp.lib.kafka.producer;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -13,14 +8,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-/** 
- * 类 描 述 ： 
- * 创 建 人 ： Lam
- * 修 改 人 ： Chuck
- * 修改备注 ：
- * 创建时间 ： Jan 28, 2015 1:19:31 PM
- */
 public class KafkaConnectionManager {
 	private static final Logger log = LogManager.getLogger();
 
@@ -37,15 +24,7 @@ public class KafkaConnectionManager {
 			initProdecerPool();
 		}
 	}
-	/**
-	 * 方法描述 ： 加载配置文件建立链接
-	 * @return  
-	 * 创 建 人 ： Lam
-	 * 修 改 人 ： Vincent
-	 * 修改备注 ： Modify to get config from loadKafkaConfig
-	 * 返回类型 ： ProducerConfig
-	 * 创建时间 ： Jan 28, 2015 1:42:09 PM
-	 */
+
 	private Properties getProducerConfig(){
 		Properties props = new Properties();
 		try {
@@ -55,18 +34,13 @@ public class KafkaConnectionManager {
 			props.put("buffer.memory", 33554432);//default: 33554432 byte = 32 MB
 			props.put("max.request.size",10485760);//set to 10MB, default: 1MB
 		} catch (Exception e) {
-			log.error("KafkaConnectionManager getProducerConfig error:{},\n{}",e.getMessage(),e.getStackTrace().toString());
+			log.error("KafkaConnectionManager getProducerConfig error:{}",e.getMessage());
 			e.printStackTrace();
 		}
 		return props;
 	}
 	/**
-	 * 方法描述 ： 初始化 producer pool
-	 * 创 建 人 ： Lam
-	 * 修 改 人 ： Chuck 12/2/2017
 	 * 修改备注 ： The producer is thread safe and sharing a single producer instance across threads will generally be faster than having multiple instances.
-	 * 返回类型 ： void
-	 * 创建时间 ： Jan 30, 2015 10:39:48 AM
 	 */
 	private void initProdecerPool(){
 		if(prConfig == null){
@@ -75,21 +49,12 @@ public class KafkaConnectionManager {
 		int connectionQuantityPerBroker = 1;
 		for(int i=0; i<connectionQuantityPerBroker; i++){
 			Producer<String, String> producer = new KafkaProducer<>(prConfig);
-			if(producer!=null){
-				list_producer.add(producer);
-			}
+			list_producer.add(producer);
 		}
 	}
 		
 	/**
-	 * 方法描述 ： 获取一个producer.
-	 * @return producer object.
-	 * 创 建 人 ： Lam
-	 * 修 改 人 ： Chuck
 	 * 修改备注 ： Producer 是线程安全的，且可以往任何 topic 发送消息。一般一个应用，对应一个 producer 就足够了。
-	 * 返回类型 ： Producer<String,String>
-	 * 创建时间 ： Jan 28, 2015 2:13:45 PM
-	 * 修改时间 ： 12/2/2017
 	 */
 	public Producer<String, String> getProducer(){
 		Producer<String, String> producer = null;
@@ -102,20 +67,12 @@ public class KafkaConnectionManager {
 		     num_prducer %= list_producer.size();
 		     producer = list_producer.get(num_prducer);
 		} catch (Exception e) {
-			log.error("KafkaConnectionManager Producer error:{},\n{}",e.getMessage(),e.getStackTrace().toString());
+			log.error("KafkaConnectionManager Producer error:{}",e.getMessage());
 			e.printStackTrace();
 		}
 		return producer;
 	}
-	/**
-	 * 方法描述 ： 
-	 * @return  kafkaConnectionManager instance
-	 * 创 建 人 ：Lam 
-	 * 修 改 人 ： 
-	 * 修改备注 ： 
-	 * 返回类型 ：KafkaConnectionManager 
-	 * 创建时间 ：Jan 28, 2015 2:13:50 PM
-	 */
+
 	public static KafkaConnectionManager getInstance(){
 		if (kafkaConnectionManager == null) {
 			synchronized (lock) {

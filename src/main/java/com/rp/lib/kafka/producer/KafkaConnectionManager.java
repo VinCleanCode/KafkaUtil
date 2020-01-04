@@ -16,9 +16,7 @@ public class KafkaConnectionManager {
 	private static List<Producer<String, String>> list_producer = new ArrayList<Producer<String,String>>();
 	private static Properties prConfig = null;
 	private static int num_prducer = 0;//获取producer 计数
-	/**
-	 * 创建一个新的实例 KafkaConnectionManager
-	 */
+
 	private KafkaConnectionManager(){
 		if(list_producer.isEmpty()){
 			initProdecerPool();
@@ -40,7 +38,7 @@ public class KafkaConnectionManager {
 		return props;
 	}
 	/**
-	 * 修改备注 ： The producer is thread safe and sharing a single producer instance across threads will generally be faster than having multiple instances.
+	 * The producer is thread safe and sharing a single producer instance across threads will generally be faster than having multiple instances.
 	 */
 	private void initProdecerPool(){
 		if(prConfig == null){
@@ -54,7 +52,7 @@ public class KafkaConnectionManager {
 	}
 		
 	/**
-	 * 修改备注 ： Producer 是线程安全的，且可以往任何 topic 发送消息。一般一个应用，对应一个 producer 就足够了。
+	 * Producer 是线程安全的，且可以往任何 topic 发送消息。一般一个应用，对应一个 producer 就足够了。
 	 */
 	public Producer<String, String> getProducer(){
 		Producer<String, String> producer = null;
